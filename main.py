@@ -13,12 +13,12 @@ if __name__ == '__main__':
                     required=True,
                     help='A valid application token')
 
-    ap.add_argument('-o', '--output',
+    ap.add_argument('-o', '--output-directory',
                     default='./workouts',
                     help='A directory where the downloaded workouts will be stored')
 
     args = vars(ap.parse_args())
 
     api = Api(args['token'])
-    scraper = Scraper(api, args['output'])
+    scraper = Scraper(api, args['output_directory'])
     scraper.run()
