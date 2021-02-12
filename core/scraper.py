@@ -40,7 +40,7 @@ class Scraper:
                 json.dump(history, f)
 
             # detail.json
-            detail = self.api.get_detail(history['trackid'], history['source'])
+            detail = self.api.get_detail(track_id, history['source'])
             detail_file_path = self.get_detail_file_path(track_id)
 
             with open(detail_file_path, encoding='utf8', mode='w') as f:
