@@ -1,8 +1,8 @@
 import argparse
 import logging
 
-from api import Api
-from scraper import Scraper
+from core.api import Api
+from core.scraper import Scraper
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
