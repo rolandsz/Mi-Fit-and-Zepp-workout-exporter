@@ -6,3 +6,6 @@ This repository contains an example Python implementation for the article https:
 ```python
 main.py [-h] -t TOKEN [-o OUTPUT]
 ```
+
+## Acknowledgements 
+The .gpx conversion is based on Miroslav Bendík's [MiFitDataExport](https://github.com/mireq/MiFitDataExport) project.
