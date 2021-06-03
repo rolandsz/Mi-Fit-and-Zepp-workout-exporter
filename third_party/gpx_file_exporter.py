@@ -87,29 +87,30 @@ class GpxFileExporter:
             fp.write('</gpx>')
 
     def parse_track_data(self):
+        #logging.error(f'troubleshoot: {list(filter(None,self.data["time"].split(";")))}')
         return RawTrackData(
             start_time=int(self.history["trackid"]),
             end_time=int(self.history["end_time"]),
             cost_time=-1,
             distance=float(self.history["dis"]),
             times=array.array('q', [int(val) for val in
-                                    self.data["time"].split(';')] if self.data["time"] else []),
+                                    list(filter(None,self.data["time"].split(";")))] if self.data["time"] else []),
             lat=array.array('q', [int(val.split(',')[0]) for val in
-                                  self.data["longitude_latitude"].split(';')] if self.data["longitude_latitude"] else []),
+                                  list(filter(None,self.data["longitude_latitude"].split(";")))] if self.data["longitude_latitude"] else []),
             lon=array.array('q', [int(val.split(',')[1]) for val in
-                                  self.data["longitude_latitude"].split(';')] if self.data["longitude_latitude"] else []),
+                                  list(filter(None,self.data["longitude_latitude"].split(";")))] if self.data["longitude_latitude"] else []),
             alt=array.array('q',
-                            [int(val) for val in self.data["altitude"].split(';')] if self.data["altitude"] else []),
+                            [int(val) for val in list(filter(None,self.data["altitude"].split(";")))] if self.data["altitude"] else []),
             hrtimes=array.array('q', [int(val.split(',')[0] or 1) for val in
-                                      self.data["heart_rate"].split(';')] if self.data["heart_rate"] else []),
+                                      list(filter(None,self.data["heart_rate"].split(";")))] if self.data["heart_rate"] else []),
             hr=array.array('q', [int(val.split(',')[1]) for val in
-                                 self.data["heart_rate"].split(';')] if self.data["heart_rate"] else []),
+                                 list(filter(None,self.data["heart_rate"].split(";")))] if self.data["heart_rate"] else []),
             steptimes=array.array('q', [int(val.split(',')[0]) for val in
-                                        self.data["gait"].split(';')] if self.data["gait"] else []),
+                                        list(filter(None,self.data["gait"].split(";")))] if self.data["gait"] else []),
             stride=array.array('q', [int(val.split(',')[2]) for val in
-                                     self.data["gait"].split(';')] if self.data["gait"] else []),
+                                     list(filter(None,self.data["gait"].split(";")))] if self.data["gait"] else []),
             cadence=array.array('q', [int(val.split(',')[3]) for val in
-                                      self.data["gait"].split(';')] if self.data["gait"] else []),
+                                      list(filter(None,self.data["gait"].split(";")))] if self.data["gait"] else []),
         )
 
     def interpolate_data(self, track_data):
