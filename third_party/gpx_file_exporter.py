@@ -59,7 +59,9 @@ class GpxFileExporter:
             time = datetime.utcfromtimestamp(track_data.start_time).isoformat()
             fp.write('<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n')
             fp.write(
-                '<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxdata="http://www.cluetrust.com/XML/GPXDATA/1/0" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1">\n')
+                '<gpx xmlns="http://www.topografix.com/GPX/1/1" '
+                'xmlns:gpxdata="http://www.cluetrust.com/XML/GPXDATA/1/0" '
+                'xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1">\n')
             fp.write(f'{ind}<metadata><time>{time}</time></metadata>\n')
             fp.write(f'{ind}<trk>\n')
             fp.write(f'{ind}{ind}<name>{time}</name>\n')
@@ -70,7 +72,10 @@ class GpxFileExporter:
                 ext_hr = ''
                 ext_cadence = ''
                 if point.hr:
-                    ext_hr = f'<gpxtpx:TrackPointExtension><gpxtpx:hr>{point.hr}</gpxtpx:hr></gpxtpx:TrackPointExtension><gpxdata:hr>{point.hr}</gpxdata:hr>'
+                    ext_hr = f'<gpxtpx:TrackPointExtension>' \
+                             f'<gpxtpx:hr>{point.hr}</gpxtpx:hr>' \
+                             f'</gpxtpx:TrackPointExtension>' \
+                             f'<gpxdata:hr>{point.hr}</gpxdata:hr>'
                 if point.cadence:
                     ext_cadence = f'<gpxdata:cadence>{point.cadence}</gpxdata:cadence>'
                 fp.write(
@@ -93,23 +98,28 @@ class GpxFileExporter:
             cost_time=-1,
             distance=float(self.history["dis"]),
             times=array.array('q', [int(val) for val in
-                                    list(filter(None,self.data["time"].split(';')))] if self.data["time"] else []),
+                                    list(filter(None, self.data["time"].split(';')))] if self.data["time"] else []),
             lat=array.array('q', [int(val.split(',')[0]) for val in
-                                  list(filter(None,self.data["longitude_latitude"].split(';')))] if self.data["longitude_latitude"] else []),
+                                  list(filter(None, self.data["longitude_latitude"].split(';')))] if self.data[
+                "longitude_latitude"] else []),
             lon=array.array('q', [int(val.split(',')[1]) for val in
-                                  list(filter(None,self.data["longitude_latitude"].split(';')))] if self.data["longitude_latitude"] else []),
+                                  list(filter(None, self.data["longitude_latitude"].split(';')))] if self.data[
+                "longitude_latitude"] else []),
             alt=array.array('q',
-                            [int(val) for val in list(filter(None,self.data["altitude"].split(';')))] if self.data["altitude"] else []),
+                            [int(val) for val in list(filter(None, self.data["altitude"].split(';')))] if self.data[
+                                "altitude"] else []),
             hrtimes=array.array('q', [int(val.split(',')[0] or 1) for val in
-                                      list(filter(None,self.data["heart_rate"].split(';')))] if self.data["heart_rate"] else []),
+                                      list(filter(None, self.data["heart_rate"].split(';')))] if self.data[
+                "heart_rate"] else []),
             hr=array.array('q', [int(val.split(',')[1]) for val in
-                                 list(filter(None,self.data["heart_rate"].split(';')))] if self.data["heart_rate"] else []),
+                                 list(filter(None, self.data["heart_rate"].split(';')))] if self.data[
+                "heart_rate"] else []),
             steptimes=array.array('q', [int(val.split(',')[0]) for val in
-                                        list(filter(None,self.data["gait"].split(';')))] if self.data["gait"] else []),
+                                        list(filter(None, self.data["gait"].split(';')))] if self.data["gait"] else []),
             stride=array.array('q', [int(val.split(',')[2]) for val in
-                                     list(filter(None,self.data["gait"].split(';')))] if self.data["gait"] else []),
+                                     list(filter(None, self.data["gait"].split(';')))] if self.data["gait"] else []),
             cadence=array.array('q', [int(val.split(',')[3]) for val in
-                                      list(filter(None,self.data["gait"].split(';')))] if self.data["gait"] else []),
+                                      list(filter(None, self.data["gait"].split(';')))] if self.data["gait"] else []),
         )
 
     def interpolate_data(self, track_data):
