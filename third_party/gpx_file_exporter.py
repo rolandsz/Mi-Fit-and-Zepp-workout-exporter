@@ -180,7 +180,7 @@ class GpxFileExporter:
         if len(original_points) == 0:
             return array.array('q', [0] * len(new_points))
         if len(original_points) == 1:
-            return array.array('q', [original_points[1]] * len(new_points))
+            return array.array('q', [original_points[0]] * len(new_points))
         interpolate = Interpolate(original_points, data)
         return array.array('q', (interpolate[point] for point in new_points))
 
