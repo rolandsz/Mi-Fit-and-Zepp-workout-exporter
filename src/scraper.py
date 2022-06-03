@@ -2,27 +2,28 @@ import json
 import logging
 import os
 
+from src.api import Api
 from third_party.gpx_file_exporter import GpxFileExporter
 
 
 class Scraper:
-    def __init__(self, api, output):
-        self.api = api
-        self.output = output
+    def __init__(self, api: Api, output: str):
+        self.api: Api = api
+        self.output: str = output
 
-    def get_output_dir_path(self, track_id):
+    def get_output_dir_path(self, track_id: str) -> str:
         return os.path.join(self.output, track_id)
 
-    def get_history_file_path(self, track_id):
+    def get_history_file_path(self, track_id: str) -> str:
         return os.path.join(self.get_output_dir_path(track_id), "history.json")
 
-    def get_detail_file_path(self, track_id):
+    def get_detail_file_path(self, track_id: str) -> str:
         return os.path.join(self.get_output_dir_path(track_id), "detail.json")
 
-    def get_gpx_file_path(self, track_id):
+    def get_gpx_file_path(self, track_id: str) -> str:
         return os.path.join(self.get_output_dir_path(track_id), f"{track_id}.gpx")
 
-    def run(self):
+    def run(self) -> None:
         history = self.api.get_history()
         logging.info(f'There are {len(history["data"]["summary"])} workouts')
 

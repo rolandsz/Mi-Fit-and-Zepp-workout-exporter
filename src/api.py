@@ -1,14 +1,15 @@
+from typing import Any, Dict
 from urllib.parse import urljoin
 
 import requests
 
 
 class Api:
-    def __init__(self, endpoint, token):
-        self.endpoint = endpoint
-        self.token = token
+    def __init__(self, endpoint: str, token: str):
+        self.endpoint: str = endpoint
+        self.token: str = token
 
-    def get_history(self):
+    def get_history(self) -> Dict[str, Any]:
         r = requests.get(
             urljoin(self.endpoint, "/v1/sport/run/history.json"),
             headers={"apptoken": self.token},
@@ -17,7 +18,7 @@ class Api:
 
         return r.json()
 
-    def get_detail(self, track_id, source):
+    def get_detail(self, track_id: str, source: str) -> Dict[str, Any]:
         r = requests.get(
             urljoin(self.endpoint, "/v1/sport/run/detail.json"),
             headers={"apptoken": self.token},

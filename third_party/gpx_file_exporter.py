@@ -1,4 +1,5 @@
-# From https://github.com/mireq/MiFitDataExport
+# type: ignore
+# from https://github.com/mireq/MiFitDataExport
 import array
 import logging
 from bisect import bisect_left
