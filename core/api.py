@@ -1,23 +1,24 @@
+from urllib.parse import urljoin
+
 import requests
 
 
 class Api:
 
-    def __init__(self, token):
+    def __init__(self, endpoint, token):
+        self.endpoint = endpoint
         self.token = token
 
     def get_history(self):
-        r = requests.get('https://api-mifit-de2.huami.com/v1/sport/run/history.json', headers={
+        r = requests.get(urljoin(self.endpoint, '/v1/sport/run/history.json'), headers={
             'apptoken': self.token
-        }, params={
-            'source': 'run.mifit.huami.com',
         })
         r.raise_for_status()
 
         return r.json()
 
     def get_detail(self, track_id, source):
-        r = requests.get('https://api-mifit-de2.huami.com/v1/sport/run/detail.json', headers={
+        r = requests.get(urljoin(self.endpoint, '/v1/sport/run/detail.json'), headers={
             'apptoken': self.token
         }, params={
             'trackid': track_id,

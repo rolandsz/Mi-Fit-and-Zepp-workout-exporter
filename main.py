@@ -9,6 +9,10 @@ if __name__ == '__main__':
 
     ap = argparse.ArgumentParser()
 
+    ap.add_argument('-e', '--endpoint',
+                    default='https://api-mifit-de2.huami.com',
+                    help='The URL of the regional endpoint associated with the user account')
+
     ap.add_argument('-t', '--token',
                     required=True,
                     help='A valid application token')
@@ -19,6 +23,6 @@ if __name__ == '__main__':
 
     args = vars(ap.parse_args())
 
-    api = Api(args['token'])
+    api = Api(args['endpoint'], args['token'])
     scraper = Scraper(api, args['output_directory'])
     scraper.run()

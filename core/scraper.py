@@ -25,7 +25,7 @@ class Scraper:
 
     def run(self):
         history = self.api.get_history()
-        logging.info(f'There are a total of {len(history["data"]["summary"])} workouts')
+        logging.info(f'There are {len(history["data"]["summary"])} workouts')
 
         for history in history['data']['summary']:
             track_id = history['trackid']
