@@ -21,3 +21,5 @@ jobs:
           pip install -r requirements.txt
       - name: Run black
         run: black --check src
+      - name: Run isort
+        run: isort --check src
