@@ -2,9 +2,8 @@ import json
 import logging
 import os
 
-from third_party.gpx_file_exporter import GpxFileExporter
-
 from src.api import Api
+from third_party.gpx_file_exporter import GpxFileExporter
 
 
 class Scraper:
