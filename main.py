@@ -10,8 +10,8 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
 
     ap.add_argument('-e', '--endpoint',
-                    default='https://api-mifit-de2.huami.com',
-                    help='The URL of the regional endpoint associated with the user account')
+                    default='https://api-mifit.huami.com',
+                    help='The endpoint to be used')
 
     ap.add_argument('-t', '--token',
                     required=True,

@@ -12,7 +12,11 @@ class Api:
     def get_history(self) -> Dict[str, Any]:
         r = requests.get(
             urljoin(self.endpoint, "/v1/sport/run/history.json"),
-            headers={"apptoken": self.token},
+            headers={
+                "apptoken": self.token,
+                "appPlatform": "web",
+                "appname": "com.xiaomi.hm.health",
+            },
         )
         r.raise_for_status()
 
@@ -21,7 +25,11 @@ class Api:
     def get_detail(self, track_id: str, source: str) -> Dict[str, Any]:
         r = requests.get(
             urljoin(self.endpoint, "/v1/sport/run/detail.json"),
-            headers={"apptoken": self.token},
+            headers={
+                "apptoken": self.token,
+                "appPlatform": "web",
+                "appname": "com.xiaomi.hm.health",
+            },
             params={
                 "trackid": track_id,
                 "source": source,
