@@ -12,7 +12,7 @@ pip install -r requirements.txt
 The script downloads all workout data and it also creates corresponding .gpx files for convenience.
 
 ```python
-main.py [-h] -t TOKEN [-o OUTPUT_DIRECTORY]
+main.py [-h] -t TOKEN [-e ENDPOINT] [-o OUTPUT_DIRECTORY]
 ```
 
 ## Acknowledgements 
