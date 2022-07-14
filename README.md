@@ -20,7 +20,7 @@ The .gpx conversion is based on Miroslav Bendík's [MiFitDataExport](https://git
 
 ## How to get a token
 This [issue](https://github.com/rolandsz/Mi-Fit-and-Zepp-workout-exporter/issues/6) discussed the problem with the token.
-In this [issue], there was a suggestion how to get a token through the [web](https://github.com/rolandsz/Mi-Fit-and-Zepp-workout-exporter/issues/6#issuecomment-1146892066)
+In this issue, there was a suggestion how to get a token through the [web](https://github.com/rolandsz/Mi-Fit-and-Zepp-workout-exporter/issues/6#issuecomment-1146892066)
 
 ### Steps to get a token
 
