@@ -2,3 +2,6 @@
 /workouts
 /test_notebook.ipynb
 /.ipynb_checkpoints/test_notebook-checkpoint.ipynb
+/db_parameters.py
+/PostgreSQL.py
+/.ipynb_checkpoints/PostgreSQL-checkpoint.py
