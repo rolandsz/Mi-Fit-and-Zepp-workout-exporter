@@ -5,6 +5,7 @@ import gpxpy
 import geopandas as gpd
 from shapely.geometry import Point
 
+
 class GPXParse:
     """
     The main class in which the gpx file is processed and converted to a GeoDataFrame.
@@ -12,6 +13,7 @@ class GPXParse:
     Input attributes:
         - `path_to_gpx` - path in `str` format that points to a file in `.gpx` format
     """
+
     def __init__(self, path_to_gpx: str):
         self.path = path_to_gpx
 
@@ -19,7 +21,7 @@ class GPXParse:
         """
         A method that takes a file path as input and generates a list with training track values
         """
-        with open(self.path, 'r') as gpx_file:
+        with open(self.path, "r") as gpx_file:
             gpx = gpxpy.parse(gpx_file)
 
         workouts = []
@@ -27,11 +29,13 @@ class GPXParse:
             for segment in track.segments:
                 for point in segment.points:
                     point_dict = {
-                        'track_date': datetime.strptime(track.name, '%Y-%m-%dT%H:%M:%S'),
-                        'latitude': point.latitude,
-                        'longitude': point.longitude,
-                        'altitude': point.elevation,
-                        'timestamp': point.time
+                        "track_date": datetime.strptime(
+                            track.name, "%Y-%m-%dT%H:%M:%S"
+                        ),
+                        "latitude": point.latitude,
+                        "longitude": point.longitude,
+                        "altitude": point.elevation,
+                        "timestamp": point.time,
                     }
                     workouts.append(point_dict)
 
@@ -57,10 +61,15 @@ class GPXParse:
         gdf.track_date = gdf.track_date.apply(lambda x: datetime.date(x))
 
         # Shape points for Geometry
-        gdf['geometry'] = [Point(gdf.latitude[point], gdf.longitude[point]) for point in range(len(gdf))]
+        gdf["geometry"] = [
+            Point(gdf.latitude[point], gdf.longitude[point])
+            for point in range(len(gdf))
+        ]
 
         # Sorting columns
-        gdf = gdf[['track_date', 'timestamp', 'latitude', 'longitude', 'altitude', 'geometry']]
+        gdf = gdf[
+            ["track_date", "timestamp", "latitude", "longitude", "altitude", "geometry"]
+        ]
 
         # Time Zone Exclusion, default = "Z"
         gdf.timestamp = gdf.timestamp.apply(lambda x: x.replace(tzinfo=None))

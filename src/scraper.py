@@ -33,7 +33,7 @@ class Scraper:
 
             # timestamp -> str
             track_date = int(track_id)
-            track_date = datetime.fromtimestamp(track_date).strftime('%Y-%m-%d')
+            track_date = datetime.fromtimestamp(track_date).strftime("%Y-%m-%d")
 
             logging.info(f"Downloading workout {track_date}")
 
