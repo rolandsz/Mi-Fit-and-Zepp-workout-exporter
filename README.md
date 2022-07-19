@@ -3,23 +3,22 @@
 This repository contains an example Python implementation for the [article](https://rolandszabo.com/reverse-engineering/mi-fit/export-mi-fit-and-zepp-workout-data).
 
 ## Environment setup
-The script depends on the `requests` package.
 ```bash
 pip install -r requirements.txt
 ```
 
 ## Usage
-The script downloads all workout data and it also creates corresponding .gpx files for convenience.
+The script downloads all workout data, and it also creates corresponding .gpx files for convenience.
 
 ```bash
-python3 main.py [-h] -t TOKEN [-e ENDPOINT] [-o OUTPUT_DIRECTORY]
+python3 main.py [-h] [-e ENDPOINT] -t TOKEN [-f {gpx,geojson,gpkg,parquet,shp,csv,json,xlsx,sql,xml,html}] [-o OUTPUT_DIRECTORY]
 ```
 
 ## Acknowledgements 
-The .gpx conversion is based on Miroslav Bendík's [MiFitDataExport](https://github.com/mireq/MiFitDataExport) project.
+The latitude/longitude parsing is based on Miroslav Bendík's [MiFitDataExport](https://github.com/mireq/MiFitDataExport) project.
 
 ## How to get a token
-This [issue](https://github.com/rolandsz/Mi-Fit-and-Zepp-workout-exporter/issues/6) discussed the problem with the token.
+The [issue](https://github.com/rolandsz/Mi-Fit-and-Zepp-workout-exporter/issues/6) discussed the problem with the acquisition of the token.
 In this issue, there was a suggestion how to get a token through the [web](https://github.com/rolandsz/Mi-Fit-and-Zepp-workout-exporter/issues/6#issuecomment-1146892066)
 
 ### Steps to get a token

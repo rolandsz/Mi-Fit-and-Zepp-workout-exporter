@@ -1,5 +1,4 @@
 {
   "include": "src",
-  "exclude": "third_party",
   "typeCheckingMode": "strict"
 }
