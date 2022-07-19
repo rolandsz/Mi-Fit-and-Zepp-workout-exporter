@@ -5,3 +5,4 @@ pyright==1.1.251
 gpxpy==1.5.0
 geopandas==0.11.0
 Shapely==1.8.2
+pydantic==1.9.1
