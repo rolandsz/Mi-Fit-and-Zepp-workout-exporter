@@ -8,7 +8,7 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-The script downloads all workout data, and it also creates corresponding .gpx files for convenience.
+The script downloads all workout data and stores them in the output directory with the specified format.
 
 ```bash
 python3 main.py [-h] [-e ENDPOINT] -t TOKEN [-f {gpx,geojson,gpkg,parquet,shp,csv,json,xlsx,sql,xml,html}] [-o OUTPUT_DIRECTORY]
