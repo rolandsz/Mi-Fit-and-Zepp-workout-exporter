@@ -11,7 +11,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from src.api import WorkoutSummary, WorkoutDetailData
+from src.api import WorkoutDetailData, WorkoutSummary
 
 NO_VALUE = -2000000
 FIX_BIP_GAPS = False
