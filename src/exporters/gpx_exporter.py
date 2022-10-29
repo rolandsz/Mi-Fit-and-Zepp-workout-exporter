@@ -60,7 +60,7 @@ class GpxExporter(BaseExporter):
                 fp.write(
                     f'{ind}{ind}{ind}<trkpt lat="{point.latitude}" lon="{point.longitude}">'
                     f"<ele>{point.altitude}</ele>"
-                    f"<time>{time}</time>"
+                    f"<time>{point.time.isoformat()}</time>"
                     f"<extensions>"
                     f"{ext_hr}{ext_cadence}"
                     f"</extensions>"
