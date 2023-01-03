@@ -48,6 +48,7 @@ class Scraper:
 
             output_file_path = self.get_output_file_path(file_name)
             output_file_path.parent.mkdir(exist_ok=True)
+            assert output_file_path.parent.exists(), "Couldn't create output folder"
 
             points = parse_points(summary, detail.data)
 

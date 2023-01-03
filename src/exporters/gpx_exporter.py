@@ -32,7 +32,7 @@ class GpxExporter(BaseExporter):
         points: List[ExportablePoint],
     ):
         ind = "\t"
-        with open(output_file_path, "w") as fp:
+        with output_file_path.open(mode="w") as fp:
             time = datetime.utcfromtimestamp(int(summary.trackid)).isoformat()
             fp.write('<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n')
             fp.write(
