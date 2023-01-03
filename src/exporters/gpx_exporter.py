@@ -2,7 +2,7 @@
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from src.api import WorkoutSummary
 from src.exporters.base_exporter import BaseExporter, ExportablePoint
@@ -10,7 +10,7 @@ from src.exporters.base_exporter import BaseExporter, ExportablePoint
 LOGGER = logging.getLogger(__name__)
 
 
-def get_type(summary: WorkoutSummary):
+def _map_workout_type(summary: WorkoutSummary) -> Optional[str]:
     if summary.type == 1:
         return "run"
     elif summary.type == 6:
@@ -18,7 +18,9 @@ def get_type(summary: WorkoutSummary):
     elif summary.type == 9:
         return "ride"
     else:
-        LOGGER.error(f"Unhandled type for workout {summary.trackid}: {summary.type}")
+        LOGGER.warning(f"Unhandled type for workout {summary.trackid}: {summary.type}")
+
+    return None
 
 
 class GpxExporter(BaseExporter):
@@ -43,7 +45,10 @@ class GpxExporter(BaseExporter):
             fp.write(f"{ind}<metadata><time>{time}</time></metadata>\n")
             fp.write(f"{ind}<trk>\n")
             fp.write(f"{ind}{ind}<name>{time}</name>\n")
-            fp.write(f"{ind}{ind}<type>{get_type(summary)}</type>\n")
+
+            if workout_type := _map_workout_type(summary):
+                fp.write(f"{ind}{ind}<type>{workout_type}</type>\n")
+
             fp.write(f"{ind}{ind}<trkseg>\n")
             for point in points:
                 ext_hr = ""
