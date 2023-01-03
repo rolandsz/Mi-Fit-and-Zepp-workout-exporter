@@ -20,83 +20,83 @@ class WorkoutSummary(BaseModel):
     city: str
     forefoot_ratio: str
     bind_device: str
-    max_pace: float
-    min_pace: float
+    max_pace: Optional[float]
+    min_pace: Optional[float]
     version: int
-    altitude_ascend: int
-    altitude_descend: int
-    total_step: int
-    avg_stride_length: int
-    max_frequency: int
-    max_altitude: int
-    min_altitude: int
-    lap_distance: int
-    sync_to: str
-    distance_ascend: int
-    max_cadence: int
-    avg_cadence: int
-    landing_time: int
-    flight_ratio: int
-    climb_dis_descend: int
-    climb_dis_ascend_time: int
-    climb_dis_descend_time: int
-    child_list: str
-    parent_trackid: int
-    max_heart_rate: int
-    min_heart_rate: int
-    swolf: int
-    total_strokes: int
-    total_trips: int
-    avg_stroke_speed: float
-    max_stroke_speed: float
-    avg_distance_per_stroke: float
-    swim_pool_length: int
-    te: int
-    swim_style: int
-    unit: int
-    add_info: str
-    sport_mode: int
-    downhill_num: int
-    downhill_max_altitude_desend: int
-    strokes: int
-    fore_hand: int
-    back_hand: int
-    serve: int
-    second_half_start_time: int
+    altitude_ascend: Optional[int]
+    altitude_descend: Optional[int]
+    total_step: Optional[int]
+    avg_stride_length: Optional[int]
+    max_frequency: Optional[int]
+    max_altitude: Optional[int]
+    min_altitude: Optional[int]
+    lap_distance: Optional[int]
+    sync_to: Optional[str]
+    distance_ascend: Optional[int]
+    max_cadence: Optional[int]
+    avg_cadence: Optional[int]
+    landing_time: Optional[int]
+    flight_ratio: Optional[int]
+    climb_dis_descend: Optional[int]
+    climb_dis_ascend_time: Optional[int]
+    climb_dis_descend_time: Optional[int]
+    child_list: Optional[str]
+    parent_trackid: Optional[int]
+    max_heart_rate: Optional[int]
+    min_heart_rate: Optional[int]
+    swolf: Optional[int]
+    total_strokes: Optional[int]
+    total_trips: Optional[int]
+    avg_stroke_speed: Optional[float]
+    max_stroke_speed: Optional[float]
+    avg_distance_per_stroke: Optional[float]
+    swim_pool_length: Optional[int]
+    te: Optional[int]
+    swim_style: Optional[int]
+    unit: Optional[int]
+    add_info: Optional[str]
+    sport_mode: Optional[int]
+    downhill_num: Optional[int]
+    downhill_max_altitude_desend: Optional[int]
+    strokes: Optional[int]
+    fore_hand: Optional[int]
+    back_hand: Optional[int]
+    serve: Optional[int]
+    second_half_start_time: Optional[int]
     pb: Optional[str]
-    rope_skipping_count: int
-    rope_skipping_avg_frequency: int
-    rope_skipping_max_frequency: int
-    rope_skipping_rest_time: int
-    left_landing_time: int
-    left_flight_ratio: int
-    right_landing_time: int
-    right_flight_ratio: int
+    rope_skipping_count: Optional[int]
+    rope_skipping_avg_frequency: Optional[int]
+    rope_skipping_max_frequency: Optional[int]
+    rope_skipping_rest_time: Optional[int]
+    left_landing_time: Optional[int]
+    left_flight_ratio: Optional[int]
+    right_landing_time: Optional[int]
+    right_flight_ratio: Optional[int]
     marathon: Optional[str]
-    situps: int
-    anaerobic_te: int
-    target_type: int
-    target_value: str
-    total_group: int
-    spo2_max: int
-    spo2_min: int
-    avg_altitude: float
-    max_slope: int
-    avg_slope: int
-    avg_pulloar_time: float
-    avg_return_time: float
-    floor_number: int
-    upstairs_height: float
-    min_upstairs_floors: float
-    accumulated_gap: int
-    auto_recognition: int
+    situps: Optional[int]
+    anaerobic_te: Optional[int]
+    target_type: Optional[int]
+    target_value: Optional[str]
+    total_group: Optional[int]
+    spo2_max: Optional[int]
+    spo2_min: Optional[int]
+    avg_altitude: Optional[float]
+    max_slope: Optional[int]
+    avg_slope: Optional[int]
+    avg_pulloar_time: Optional[float]
+    avg_return_time: Optional[float]
+    floor_number: Optional[int]
+    upstairs_height: Optional[float]
+    min_upstairs_floors: Optional[float]
+    accumulated_gap: Optional[int]
+    auto_recognition: Optional[int]
     app_name: str
     pause_time: Optional[str]
-    heartrate_setting_type: int
+    heartrate_setting_type: Optional[int]
 
 
 class WorkoutHistoryData(BaseModel):
-    next: Optional[int] = None
+    next: int
     summary: List[WorkoutSummary]
 
 
@@ -154,8 +154,13 @@ class Api:
         self.base_url: str = endpoint
         self.token: str = token
 
-    def get_workout_history(self) -> WorkoutHistory:
-        response = self._do_request(endpoint="/v1/sport/run/history.json", params={})
+    def get_workout_history(
+        self, from_track_id: Optional[int] = None
+    ) -> WorkoutHistory:
+        response = self._do_request(
+            endpoint="/v1/sport/run/history.json",
+            params={"trackid": from_track_id} if from_track_id is not None else {},
+        )
         model = WorkoutHistory(**response)
         return model
 

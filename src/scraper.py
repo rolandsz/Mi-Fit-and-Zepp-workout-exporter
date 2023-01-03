@@ -1,8 +1,9 @@
 import logging
 from datetime import datetime
 from pathlib import Path
+from typing import List
 
-from src.api import Api
+from src.api import Api, WorkoutSummary
 from src.exporters.base_exporter import BaseExporter, parse_points
 
 LOGGER = logging.getLogger(__name__)
@@ -20,11 +21,24 @@ class Scraper:
     def get_output_file_path(self, file_name: str) -> Path:
         return (self.output_dir / file_name).with_suffix(f".{self.file_format}")
 
-    def run(self) -> None:
-        workout_history = self.api.get_workout_history()
-        logging.info(f"There are {len(workout_history.data.summary)} workouts")
+    def fetch_workout_summaries(self) -> List[WorkoutSummary]:
+        summaries: List[WorkoutSummary] = []
 
-        for summary in workout_history.data.summary:
+        history = self.api.get_workout_history()
+        summaries.extend(history.data.summary)
+
+        while history.data.next != -1:
+            logging.info(
+                f"Fetching more summaries starting from workout {history.data.next}"
+            )
+            history = self.api.get_workout_history(from_track_id=history.data.next)
+            summaries.extend(history.data.summary)
+
+        logging.info(f"There are {len(summaries)} workouts in total")
+        return summaries
+
+    def run(self) -> None:
+        for summary in self.fetch_workout_summaries():
             detail = self.api.get_workout_detail(summary)
 
             track_id = int(summary.trackid)
