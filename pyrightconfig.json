@@ -1,4 +1,6 @@
 {
   "include": "src",
-  "typeCheckingMode": "strict"
+  "typeCheckingMode": "strict",
+  "useLibraryCodeForTypes": true,
+  "reportMissingTypeStubs": false,
 }

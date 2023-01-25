@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import List
 
 from src.api import Api
+from src.auth import get_app_token
 from src.exporters.base_exporter import BaseExporter
 from src.exporters.geopandas_exporter import GeoPandasExporter
 from src.exporters.gpx_exporter import GpxExporter
@@ -38,7 +39,7 @@ if __name__ == "__main__":
         default="https://api-mifit.huami.com",
         help="The endpoint to be used",
     )
-    ap.add_argument("-t", "--token", required=True, help="A valid application token")
+    ap.add_argument("-t", "--token", help="A valid application token")
     ap.add_argument(
         "-f",
         "--file-format",
@@ -56,12 +57,16 @@ if __name__ == "__main__":
 
     args = vars(ap.parse_args())
 
-    api = Api(args["endpoint"], args["token"])
+    if not args["token"]:
+        args["token"] = get_app_token()
 
-    exporter = next(
-        exporter
-        for exporter in exporters
-        if args["file_format"] in exporter.get_supported_file_formats()
-    )
-    scraper = Scraper(api, exporter, args["output_directory"], args["file_format"])
-    scraper.run()
+    if args["token"]:
+        api = Api(args["endpoint"], args["token"])
+
+        exporter = next(
+            exporter
+            for exporter in exporters
+            if args["file_format"] in exporter.get_supported_file_formats()
+        )
+        scraper = Scraper(api, exporter, args["output_directory"], args["file_format"])
+        scraper.run()

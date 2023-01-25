@@ -17,9 +17,8 @@ def _map_workout_type(summary: WorkoutSummary) -> Optional[str]:
         return "hike"
     elif summary.type == 9:
         return "ride"
-    else:
-        LOGGER.warning(f"Unhandled type for workout {summary.trackid}: {summary.type}")
 
+    LOGGER.warning(f"Unhandled type for workout {summary.trackid}: {summary.type}")
     return None
 
 

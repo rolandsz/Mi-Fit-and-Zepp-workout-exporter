@@ -6,3 +6,6 @@ gpxpy==1.5.0
 geopandas==0.11.0
 Shapely==1.8.2
 pydantic==1.9.1
+playwright==1.29.1
+install-playwright==0.0.0
+furl==2.1.3

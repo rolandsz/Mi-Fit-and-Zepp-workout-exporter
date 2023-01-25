@@ -4,6 +4,8 @@ from urllib.parse import urljoin
 import requests
 from pydantic import BaseModel
 
+from src import constants
+
 
 class WorkoutSummary(BaseModel):
     trackid: str
@@ -147,9 +149,6 @@ class WorkoutDetail(BaseModel):
 
 
 class Api:
-    APP_NAME = "com.xiaomi.hm.health"
-    APP_PLATFORM = "web"
-
     def __init__(self, endpoint: str, token: str):
         self.base_url: str = endpoint
         self.token: str = token
@@ -180,8 +179,8 @@ class Api:
             urljoin(self.base_url, endpoint),
             headers={
                 "apptoken": self.token,
-                "appPlatform": Api.APP_PLATFORM,
-                "appname": Api.APP_NAME,
+                "appPlatform": constants.APP_PLATFORM,
+                "appname": constants.APP_NAME,
             },
             params=params,
         )

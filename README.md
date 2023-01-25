@@ -8,31 +8,25 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-The script downloads all workout data and stores them in the output directory with the specified format.
+The script authenticates the user with the API then exports all workouts to the output directory using the specified file format.
 
 ```bash
-python3 main.py [-h] [-e ENDPOINT] -t TOKEN [-f {gpx,geojson,gpkg,parquet,shp,csv,json,xlsx,sql,xml,html}] [-o OUTPUT_DIRECTORY]
+python3 main.py [-h] [-e ENDPOINT] [-t TOKEN] [-f {gpx,geojson,gpkg,parquet,shp,csv,json,xlsx,sql,xml,html}] [-o OUTPUT_DIRECTORY]
 ```
 
 ## Acknowledgements 
 The latitude/longitude parsing is based on Miroslav Bendík's [MiFitDataExport](https://github.com/mireq/MiFitDataExport) project.
 
-## How to get a token
-The [issue](https://github.com/rolandsz/Mi-Fit-and-Zepp-workout-exporter/issues/6) discussed the problem with the acquisition of the token.
-In this issue, there was a suggestion how to get a token through the [web](https://github.com/rolandsz/Mi-Fit-and-Zepp-workout-exporter/issues/6#issuecomment-1146892066)
+## How to get the token manually
+If the authentication does not work out of the box, you can also provide the token manually:
 
-### Steps to get a token
+1. Open the [GDPR page](https://user.huami.com/privacy2/index.html?loginPlatform=web&platform_app=com.xiaomi.hm.health)
+2. Click `Export data`
+3. Sign in to your account
+4. Open the developer tools in your browser (F12)
+5. Select the `Network` tab
+6. Click on `Export data` again
+7. Look for any request containing the `apptoken` header or cookie
+8. Pass the token to the script using the `-t` argument
 
-1. Open this [link](https://user.huami.com/privacy2/index.html?loginPlatform=web&platform_app=com.xiaomi.hm.health&v=4.0.17#/)
-2. Choose "Export data"
-3. Sign in to your zepp account
-4. Again choose "Export data"
-5. Open Google inspector
-6. Choose `Network`
-7. Select any field to export
-8. Fill in the email and verification code
-9. After completion, you will be taken to the last page with success
-10. Explore the `network` and find the process name `dataExportation`
-11. Look for the `apptoken` field
-
-<img src="readme_files/zepp_token.jpg"/></img>
+<img src=".github/readme_files/zepp_token.jpg"/></img>
