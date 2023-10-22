@@ -55,9 +55,9 @@ class GpxExporter(BaseExporter):
                 if point.heart_rate:
                     ext_hr = (
                         f"<gpxtpx:TrackPointExtension>"
-                        f"<gpxtpx:hr>{point.heart_rate}</gpxtpx:hr>"
+                        f"<gpxtpx:hr>{int(point.heart_rate)}</gpxtpx:hr>"
                         f"</gpxtpx:TrackPointExtension>"
-                        f"<gpxdata:hr>{point.heart_rate}</gpxdata:hr>"
+                        f"<gpxdata:hr>{int(point.heart_rate)}</gpxdata:hr>"
                     )
                 if point.cadence:
                     ext_cadence = f"<gpxdata:cadence>{point.cadence}</gpxdata:cadence>"
