@@ -9,17 +9,23 @@ from src.exporters.base_exporter import BaseExporter, ExportablePoint
 
 LOGGER = logging.getLogger(__name__)
 
+WORKOUT_TYPE_MAP = {
+    1: "running",
+    6: "walking",
+    8: "treadmill_running",
+    9: "cycling",
+    10: "indoor_cycling",
+    16: "other",
+    23: "indoor_rowing",
+    92: "badminton",
+}
+
 
 def _map_workout_type(summary: WorkoutSummary) -> Optional[str]:
-    if summary.type == 1:
-        return "run"
-    elif summary.type == 6:
-        return "hike"
-    elif summary.type == 9:
-        return "ride"
+    if not (workout_type := WORKOUT_TYPE_MAP.get(summary.type)):
+        LOGGER.warning(f"Unhandled type for workout {summary.trackid}: {summary.type}")
 
-    LOGGER.warning(f"Unhandled type for workout {summary.trackid}: {summary.type}")
-    return None
+    return workout_type
 
 
 class GpxExporter(BaseExporter):
