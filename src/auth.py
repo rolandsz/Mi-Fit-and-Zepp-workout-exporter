@@ -47,7 +47,7 @@ def get_app_token() -> Optional[str]:
 
         if not (
             token_cookie := next(
-                (c for c in page.context.cookies() if c["name"] == "apptoken"), None
+                (c for c in page.context.cookies() if c.get("name") == "apptoken"), None
             )
         ):
             _logger.error(
@@ -57,4 +57,4 @@ def get_app_token() -> Optional[str]:
             return None
 
         browser.close()
-        return token_cookie["value"]
+        return token_cookie.get("value")

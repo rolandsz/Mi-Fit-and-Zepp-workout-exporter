@@ -1,0 +1,21 @@
+[project]
+name = "mi-fit-and-zepp-workout-exporter"
+version = "0.1.0"
+description = "A Python script, which allows users to export workout data from Mi Fit and Zepp applications"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "furl>=2.1.4",
+    "geopandas>=1.0.1",
+    "gpxpy>=1.6.2",
+    "install-playwright>=0.1.0",
+    "playwright>=1.51.0",
+    "pydantic>=2.10.6",
+    "requests>=2.32.3",
+]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.397",
+    "ruff>=0.11.2",
+]

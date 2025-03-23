@@ -4,7 +4,7 @@ This repository contains an example Python implementation for the [article](http
 
 ## Environment setup
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 ## Usage

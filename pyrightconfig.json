@@ -1,6 +1,0 @@
-{
-  "include": "src",
-  "typeCheckingMode": "strict",
-  "useLibraryCodeForTypes": true,
-  "reportMissingTypeStubs": false,
-}
