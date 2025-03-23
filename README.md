@@ -11,7 +11,7 @@ uv sync
 The script authenticates the user with the API then exports all workouts to the output directory using the specified file format.
 
 ```bash
-python3 main.py [-h] [-e ENDPOINT] [-t TOKEN] [-f {gpx,geojson,gpkg,parquet,shp,csv,json,xlsx,sql,xml,html}] [-o OUTPUT_DIRECTORY]
+python3 main.py [-h] [-e ENDPOINT] [-t TOKEN] [-f {gpx,geojson,gpkg,parquet,shp,csv,json,xlsx,sql,sqlite3,xml,html}] [-o OUTPUT_DIRECTORY]
 ```
 
 ## Acknowledgements 

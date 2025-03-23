@@ -41,6 +41,12 @@ class Scraper:
         for summary in self.fetch_workout_summaries():
             detail = self.api.get_workout_detail(summary)
 
+            if not (points := parse_points(summary, detail.data)):
+                LOGGER.warning(
+                    f"Skipping workout {summary.trackid} because it has no points"
+                )
+                continue
+
             track_id = int(summary.trackid)
             file_name = datetime.fromtimestamp(track_id).strftime(
                 "Workout--%Y-%m-%d--%H-%M-%S"
@@ -49,8 +55,6 @@ class Scraper:
             output_file_path = self.get_output_file_path(file_name)
             output_file_path.parent.mkdir(exist_ok=True)
             assert output_file_path.parent.exists(), "Couldn't create output folder"
-
-            points = parse_points(summary, detail.data)
 
             self.exporter.export(output_file_path, summary, points)
             LOGGER.info(f"Downloaded {output_file_path}")

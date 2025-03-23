@@ -1,5 +1,5 @@
-# type: ignore
 import logging
+import sqlite3
 from datetime import datetime
 from pathlib import Path
 from typing import List
@@ -24,6 +24,7 @@ class GeoPandasExporter(BaseExporter):
             "json",
             "xlsx",
             "sql",
+            "sqlite3",
             "xml",
             "html",
         ]
@@ -39,29 +40,30 @@ class GeoPandasExporter(BaseExporter):
         data = [
             {
                 "track_date": track_date,
+                "timestamp": point.time.isoformat(),
                 "latitude": point.latitude,
                 "longitude": point.longitude,
                 "altitude": point.altitude,
-                "timestamp": point.time.isoformat(),
+                "heart_rate": point.heart_rate,
+                "cadence": point.cadence,
+                "geometry": Point(point.latitude, point.longitude),
             }
             for point in points
         ]
 
-        # list -> GeoDataFrame
-        gdf = gpd.GeoDataFrame(data)
-
-        # Shape points for Geometry
-        gdf["geometry"] = [
-            Point(gdf.latitude[point], gdf.longitude[point])
-            for point in range(len(gdf))
-        ]
-
-        # Sorting columns
+        gdf = gpd.GeoDataFrame(data, geometry="geometry")
         gdf = gdf[
-            ["track_date", "timestamp", "latitude", "longitude", "altitude", "geometry"]
+            [
+                "track_date",
+                "timestamp",
+                "latitude",
+                "longitude",
+                "altitude",
+                "heart_rate",
+                "cadence",
+                "geometry",
+            ]
         ]
-
-        # Set crs for Geometry
         gdf.geometry = gdf.geometry.set_crs(epsg=4326)
         gdf.geometry = gdf.geometry.to_crs(epsg=4326)
 
@@ -78,11 +80,19 @@ class GeoPandasExporter(BaseExporter):
         elif ext == ".csv":
             gdf.to_csv(output_file_path)
         elif ext == ".json":
-            gdf.to_json(output_file_path)
+            gdf.to_json(str(output_file_path))
         elif ext == ".xslx":
             gdf.to_excel(output_file_path)
-        elif ext == ".sql":
-            gdf.to_sql(output_file_path)
+        elif ext in [".sql", ".sqlite3"]:
+            con = sqlite3.connect(":memory:" if ext == ".sql" else output_file_path)
+            gdf.drop(columns=["geometry"]).to_sql(
+                name="points", con=con, if_exists="append"
+            )
+
+            if ext == ".sql":
+                with open(output_file_path, "w") as f:
+                    for line in con.iterdump():
+                        f.write(f"{line}\n")
         elif ext == ".xml":
             gdf.to_xml(output_file_path)
         elif ext == ".html":
