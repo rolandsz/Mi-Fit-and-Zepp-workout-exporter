@@ -146,6 +146,9 @@ class WorkoutDetail(BaseModel):
     code: int
     message: str
     data: WorkoutDetailData
+    activity: Optional[Dict[str, Any]] = None
+    summary: Optional[Dict[str, Any]] = None
+    heart_rate_zones: Optional[Dict[str, Any]] = None
 
 
 class Api:
@@ -171,6 +174,7 @@ class Api:
                 "source": workout.source,
             },
         )
+        # Parse the response
         model = WorkoutDetail(**response)
         return model
 

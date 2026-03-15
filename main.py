@@ -33,7 +33,8 @@ def parse_date_to_timestamp(date_str, is_end=False):
         return math.inf if is_end else -math.inf
 
     try:
-        dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        dt = datetime.strptime(
+            date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
 
         if is_end:
             dt = dt.replace(hour=23, minute=59, second=59, microsecond=999999)
@@ -84,6 +85,11 @@ if __name__ == "__main__":
         type=str,
         help="End date in YYYY-MM-DD format (optional)"
     )
+    ap.add_argument(
+        "--include-no-gps",
+        action="store_true",
+        help="Include workouts that have no GPS data"
+    )
 
     args = vars(ap.parse_args())
 
@@ -102,5 +108,6 @@ if __name__ == "__main__":
         start_ts = parse_date_to_timestamp(args["start_date"], is_end=False)
         end_ts = parse_date_to_timestamp(args["end_date"], is_end=True)
 
-        scraper = Scraper(api, exporter, args["output_directory"], args["file_format"], start_ts, end_ts)
+        scraper = Scraper(api, exporter, args["output_directory"],
+                          args["file_format"], start_ts, end_ts, args["include_no_gps"])
         scraper.run()

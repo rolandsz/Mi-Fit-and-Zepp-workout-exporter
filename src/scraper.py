@@ -11,7 +11,7 @@ LOGGER = logging.getLogger(__name__)
 
 class Scraper:
     def __init__(
-        self, api: Api, exporter: BaseExporter, output_dir: Path, file_format: str, start_ts: float, end_ts: float
+        self, api: Api, exporter: BaseExporter, output_dir: Path, file_format: str, start_ts: float, end_ts: float, include_no_gps: bool = False
     ):
         self.api: Api = api
         self.exporter: BaseExporter = exporter
@@ -19,6 +19,7 @@ class Scraper:
         self.file_format: str = file_format
         self.start_ts: float = start_ts
         self.end_ts: float = end_ts
+        self.include_no_gps: bool = include_no_gps
 
         if start_ts > end_ts:
             raise ValueError("Start date cannot be after end date")
@@ -36,7 +37,8 @@ class Scraper:
             logging.info(
                 f"Fetching more summaries starting from workout {history.data.next}"
             )
-            history = self.api.get_workout_history(from_track_id=history.data.next)
+            history = self.api.get_workout_history(
+                from_track_id=history.data.next)
             summaries.extend(history.data.summary)
 
         logging.info(f"There are {len(summaries)} workouts in total")
@@ -52,11 +54,18 @@ class Scraper:
         for summary in filtered_summaries:
             detail = self.api.get_workout_detail(summary)
 
-            if not (points := parse_points(summary, detail.data)):
-                LOGGER.warning(
-                    f"Skipping workout {summary.trackid} because it has no points"
-                )
-                continue
+            points = parse_points(summary, detail.data)
+            if not points:
+                if not self.include_no_gps:
+                    LOGGER.warning(
+                        f"Skipping workout {summary.trackid} because it has no points"
+                    )
+                    continue
+                else:
+                    LOGGER.info(
+                        f"Detail for workout {summary.trackid} (no GPS): activity={detail.activity}, summary={detail.summary}, heart_rate_zones={detail.heart_rate_zones}")
+
+            track_id = int(summary.trackid)
 
             track_id = int(summary.trackid)
             file_name = datetime.fromtimestamp(track_id).strftime(
@@ -67,5 +76,5 @@ class Scraper:
             output_file_path.parent.mkdir(exist_ok=True)
             assert output_file_path.parent.exists(), "Couldn't create output folder"
 
-            self.exporter.export(output_file_path, summary, points)
+            self.exporter.export(output_file_path, summary, points, detail)
             LOGGER.info(f"Downloaded {output_file_path}")

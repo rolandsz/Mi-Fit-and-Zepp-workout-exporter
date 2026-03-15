@@ -5,3 +5,5 @@
 /db_parameters.py
 /PostgreSQL.py
 /.ipynb_checkpoints/PostgreSQL-checkpoint.py
+.idea
+__pycache__

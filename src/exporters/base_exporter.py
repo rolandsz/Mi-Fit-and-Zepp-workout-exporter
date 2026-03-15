@@ -11,7 +11,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from src.api import WorkoutDetailData, WorkoutSummary
+from src.api import WorkoutDetail, WorkoutDetailData, WorkoutSummary
 
 NO_VALUE = -2000000
 FIX_BIP_GAPS = False
@@ -35,7 +35,8 @@ RawTrackData = namedtuple(
     ],
 )
 Position = namedtuple("Position", ["lat", "lon", "alt"])
-TrackPoint = namedtuple("TrackPoint", ["time", "position", "hr", "stride", "cadence"])
+TrackPoint = namedtuple(
+    "TrackPoint", ["time", "position", "hr", "stride", "cadence"])
 
 
 class Interpolate(object):
@@ -43,7 +44,8 @@ class Interpolate(object):
         intervals = zip(x_list, x_list[1:], y_list, y_list[1:])
         self.x_list = x_list
         self.y_list = y_list
-        self.slopes = [(y2 - y1) // ((x2 - x1) or 1) for x1, x2, y1, y2 in intervals]
+        self.slopes = [(y2 - y1) // ((x2 - x1) or 1)
+                       for x1, x2, y1, y2 in intervals]
 
     def __getitem__(self, x):
         i = bisect_left(self.x_list, x) - 1
@@ -181,7 +183,8 @@ def track_points(track_data):
     ):
         yield TrackPoint(
             time=time,
-            position=Position(lat=lat / 100000000, lon=lon / 100000000, alt=alt / 100),
+            position=Position(lat=lat / 100000000, lon=lon /
+                              100000000, alt=alt / 100),
             hr=hr,
             stride=stride,
             cadence=cadence,
@@ -217,7 +220,8 @@ def interpolate_data(track_data):
             hr_times = change_times(hr_times, time_change, max_time)
             step_times = change_times(step_times, time_change, max_time)
             time_to_trim += time_change
-            times = list(sorted(set(track_times).union(hr_times).union(step_times)))
+            times = list(
+                sorted(set(track_times).union(hr_times).union(step_times)))
 
     return track_data._replace(
         times=times,
@@ -266,5 +270,6 @@ class BaseExporter(abc.ABC):
         output_file_path: Path,
         summary: WorkoutSummary,
         points: List[ExportablePoint],
+        detail: WorkoutDetail,
     ):
         raise NotImplementedError()
