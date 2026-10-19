@@ -10,11 +10,12 @@ from src.auth import get_app_token
 from src.exporters.base_exporter import BaseExporter
 from src.exporters.geopandas_exporter import GeoPandasExporter
 from src.exporters.gpx_exporter import GpxExporter
+from src.exporters.fit_exporter import FitExporter
 from src.scraper import Scraper
 
 
 def get_exporters() -> List[BaseExporter]:
-    exporters: List[BaseExporter] = [GpxExporter(), GeoPandasExporter()]
+    exporters: List[BaseExporter] = [ GpxExporter(), GeoPandasExporter(),FitExporter()]
     return exporters
 
 
